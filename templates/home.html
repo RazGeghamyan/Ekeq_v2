@@ -30,16 +30,57 @@
   .group:hover .circle-wrapper::before { top: -55px; opacity: 1; transform: translateX(-50%) scale(1.3) rotate(180deg); }
   .group:hover .circle-wrapper::after { bottom: -55px; opacity: 1; transform: translateX(-50%) scale(1.3) rotate(-180deg); }
 
-  /* Հարմարեցում փոքր էկրանների համար առանց դիզայնը փոխելու */
+  /* Ավտոմատ ադապտացիա բոլոր էկրանների համար */
   @media (max-width: 768px) {
-    .circle-wrapper::before { top: -22px; font-size: 14px; }
-    .circle-wrapper::after { bottom: -22px; font-size: 14px; }
+    /* Օգտագործում ենք clamp, որպեսզի 300px-ից սկսած ամեն ինչ սահուն փոքրանա */
+    h1 {
+      font-size: clamp(24px, 8vw, 32px) !important;
+      line-height: 1.2 !important;
+    }
+    h2 {
+      font-size: clamp(18px, 6vw, 24px) !important;
+      margin-bottom: clamp(30px, 8vw, 50px) !important;
+    }
+    p.uppercase { font-size: clamp(9px, 3vw, 12px) !important; }
 
-    /* Ավտոմատ փոքրացնում ենք բոլոր padding-ները և տեքստերը */
-    section { padding-top: 80px !important; padding-bottom: 50px !important; }
-    h1 { font-size: 32px !important; }
-    h2 { font-size: 24px !important; margin-bottom: 50px !important; }
-    .hero-image-box { mt: 30px !important; }
+    section {
+      padding-top: clamp(60px, 15vw, 80px) !important;
+      padding-bottom: clamp(40px, 10vw, 50px) !important;
+    }
+
+    /* Շրջանակների չափերը փոքր էկրաններին */
+    .circle-wrapper {
+      width: clamp(100px, 40vw, 160px) !important;
+      height: clamp(100px, 40vw, 160px) !important;
+    }
+
+    .circle-wrapper::before { top: -20px; font-size: 14px; }
+    .circle-wrapper::after { bottom: -20px; font-size: 14px; }
+
+    /* Տեքստերը ծառայությունների տակ */
+    h3 { font-size: clamp(10px, 3.5vw, 14px) !important; }
+
+    /* Icons չափերը */
+    .fa-regular, .fa-solid {
+      font-size: clamp(40px, 12vw, 60px) !important;
+    }
+
+    /* Կոճակների տեքստը */
+    .hero-buttons a, .flex-col a {
+      font-size: clamp(10px, 3vw, 12px) !important;
+      padding: 10px 20px !important;
+    }
+  }
+
+  /* Շատ փոքր էկրանների համար (Mobile S) */
+  @media (max-width: 330px) {
+    .grid-cols-2 {
+      gap-x: 10px !important; /* Նեղացնում ենք արանքները, որ չսեղմվի */
+    }
+    .px-5 {
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
   }
 </style>
 
@@ -47,7 +88,7 @@
     <div class="flex-1 w-full max-w-[600px]">
         <p class="uppercase tracking-[2px] text-[10px] md:text-[12px] text-[var(--text-grey)] mb-5">PREMIUM QUALITY</p>
         <h1 class="text-[32px] md:text-[40px] font-light text-[var(--header-dark)] leading-[1.3] mb-[30px] tracking-[1px] lg:text-[56px]">
-            Ստեղծեք ձեր <span class="text-[var(--gold-accent)] block font-medium mt-[10px]">անմոռանալի օրվա</span> թվային հրավիրատոմսը: 💌
+            Ստեղծեք ձեր <span class="text-[var(--gold-accent)] block font-medium mt-[10px]">անմոռանալի օրվա</span> թվային հրավիրատոմսը:
         </h1>
         <div class="hero-buttons">
             <a href="/catalog" class="inline-block bg-[var(--gold-accent)] text-white py-3 px-[35px] md:py-4 md:px-[45px] rounded-[50px] uppercase text-[12px] md:text-[13px] tracking-[2px] shadow-[0_10px_20px_rgba(125,147,108,0.2)] transition-all duration-500 hover:-translate-y-[3px] hover:bg-[var(--nude-beige)]">
