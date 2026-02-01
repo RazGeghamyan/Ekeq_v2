@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save Our Date</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f2ed;
+            color: #8b0000;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .month {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .dates {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .date-heart {
+            color: #ff0000;
+        }
+
+        .save-date {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+
+        .map-container {
+            position: relative;
+            margin-bottom: 100px;
+        }
+
+        .world-map {
+            width: 100%;
+            height: auto;
+            opacity: 0.5;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            color: #ff0000;
+            left: 60%; /* Approximate position over Armenia */
+            top: 30%;
+            transition: transform 0.2s ease;
+        }
+
+        .path-container {
+            position: absolute;
+            top: 50%; /* Adjust to start from heart */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 800px; /* Height covering the timeline */
+            z-index: 0;
+        }
+
+        .event {
+            margin: 100px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 1.2rem;
+        }
+
+        .location {
+            font-size: 1rem;
+        }
+
+        .box {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="month">Օգոստոս 2026</div>
+        <div class="dates">
+            <span>25</span>
+            <span>26</span>
+            <span class="date-heart">27 ♥</span>
+            <span>28</span>
+            <span>29</span>
+        </div>
+        <div class="save-date">save our date!</div>
+
+        <div class="map-container">
+            <img src="https://as2.ftcdn.net/jpg/03/50/89/11/1000_F_350891171_rTMHVToAJX3WlGgfuupD42SYSHkJCGVu.jpg" alt="World Map" class="world-map">
+            <div class="heart" id="moving-heart">♥</div>
+        </div>
+
+        <svg class="path-container" id="path-svg" viewBox="0 0 600 800" preserveAspectRatio="none">
+            <path id="animation-path" d="M300 0 C 200 200, 400 400, 300 800" stroke="#8b0000" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+        </svg>
+
+        <div class="event">
+            <div class="time">15:00</div>
+            <div class="title">Մեր հարսանիքը տեղի կունենա</div>
+            <div class="location">Երևանում (ք. Երևան)</div>
+            <div class="box">Ռեստորան</div>
+        </div>
+
+        <div class="event">
+            <div class="time">16:30</div>
+            <div class="title">Պսակադրություն</div>
+            <div class="location">Սուրբ Սարգիս եկեղեցի (ք. Երևան, Իսահակյան 104)</div>
+            <div class="box">Ռեստորան</div>
+        </div>
+
+        <div class="event">
+            <div class="time">17:00</div>
+            <div class="title">Հարսանյաց հանդես</div>
+            <div class="location">"eLLu" ռեստորանային համալիր</div>
+            <div class="box">Ռեստորան</div>
+        </div>
+    </div>
+
+    <script>
+        const heart = document.getElementById('moving-heart');
+        const path = document.getElementById('animation-path');
+        const mapContainer = document.querySelector('.map-container');
+        const timelineStart = document.querySelector('.event').offsetTop;
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            const mapBottom = mapContainer.offsetTop + mapContainer.offsetHeight;
+
+            if (scrollPos < mapBottom) {
+                // Heart stays on map
+                heart.style.position = 'absolute';
+                heart.style.top = '30%';
+                heart.style.left = '60%';
+            } else {
+                // Move heart along path
+                heart.style.position = 'fixed';
+                const progress = (scrollPos - mapBottom) / (document.body.scrollHeight - mapBottom - window.innerHeight);
+                const length = path.getTotalLength();
+                const point = path.getPointAtLength(progress * length);
+
+                heart.style.left = `${(point.x / 600) * 100}%`;
+                heart.style.top = `${point.y}px`; // Since SVG is absolute, adjust
+            }
+        });
+    </script>
+</body>
+</html>
